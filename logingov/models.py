@@ -24,6 +24,10 @@ class LoginGovSPSettings(models.Model):
         updated_at: Timestamp of last update
     """
 
+    class Meta:
+        verbose_name = "Login.gov SP Client"
+        verbose_name_plural = "Login.gov SP Settings"
+
     # Default to sandbox mode
     sandbox_mode = models.BooleanField(
         default=True, help_text="Enable sandbox mode (default: True)"
@@ -31,6 +35,7 @@ class LoginGovSPSettings(models.Model):
 
     # Client ID for Login.gov
     client_id = models.CharField(
+        verbose_name="Client ID (Issuer)",
         max_length=255,
         default=None,
         help_text="Client ID for Login.gov. "
@@ -75,6 +80,7 @@ class LoginGovSPSettings(models.Model):
         ("verified-facial-match-required", "Verified, facial match required"),
     ]
     ial_level = models.CharField(
+        verbose_name="IAL Level",
         max_length=31,
         choices=IAL_CHOICES,
         default="auth-only",
@@ -92,6 +98,7 @@ class LoginGovSPSettings(models.Model):
         ("require_hspd12", "Require an HSPD12 credential (requires PIV/CAC)"),
     ]
     aal_level = models.CharField(
+        verbose_name="AAL Level",
         max_length=50,
         choices=AAL_CHOICES,
         default="duo",
@@ -116,6 +123,7 @@ class LoginGovSPSettings(models.Model):
     ]
 
     scopes = models.JSONField(
+        verbose_name="Scopes",
         null=True,
         blank=True,
         default=dict,
@@ -125,6 +133,7 @@ class LoginGovSPSettings(models.Model):
 
     # Token expiration time in seconds
     token_expire = models.IntegerField(
+        verbose_name="Token TTL",
         default=300,
         help_text="Token expiration time in seconds (default: 300)"
     )

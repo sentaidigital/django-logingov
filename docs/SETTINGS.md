@@ -1,5 +1,6 @@
 ## Example Settings
 
+The configuration can be set up in the administration section of your project
 
 ```python
 # Boolean flag to enable sandbox mode (default: True)
@@ -26,8 +27,8 @@ LOGIN_GOV_IAL_LEVEL = "verified"
 LOGIN_GOV_TOKEN_EXPIR = 300
 
 # List of userinfo fields to include (default: empty list)
-# The sub, email, ial, and aal fields are always fetched.
-LOGIN_GOV_USERINFO_FIELDS = [
+# The email scope is always included.
+LOGIN_GOV_SCOPES = [
     "all_emails",
     "locale",
     "openid",

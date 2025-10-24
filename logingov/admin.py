@@ -17,6 +17,7 @@ class LoginGovConfigAdminForm(forms.ModelForm):
 
     # Define the scopes_field as a multiple choice field
     scopes_field = forms.MultipleChoiceField(
+        label="Scopes",
         choices=LoginGovSPSettings.VALID_SCOPES,
         widget=forms.CheckboxSelectMultiple,
         required=False,
@@ -75,20 +76,14 @@ class LoginGovConfigAdmin(admin.ModelAdmin):
         ('Environment Settings', {
             'fields': ('sandbox_mode',)
         }),
-        ('Client Configuration', {
-            'fields': ('client_id',)
+        ('OIDC Configuration', {
+            'fields': ('client_id','ial_level', 'aal_level', 'scopes_field')
         }),
         ('User Management', {
             'fields': ('auto_create_users', 'auto_link_users', 'default_group')
         }),
-        ('Authentication Levels', {
-            'fields': ('ial_level', 'aal_level')
-        }),
-        ('Token Expiration', {
+        ('Fiddly Options', {
             'fields': ('token_expire',)
-        }),
-        ('Scopes', {
-            'fields': ('scopes_field',)
         }),
     )
 

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-logingov"
+version = "0.8"
+dependencies = [
+    "django>=5.2",
+    "pyjwt",
+    "requests"
+]
+description = "A Django app to conduct web-based polls."
+readme = "README.rst"
+license = "BSD-3-Clause"
+requires-python = ">= 3.10"
+authors = [
+    {name = "John Franklin", email = "franklin@sentaidigital.com"},
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",  # Replace "X.Y" as appropriate
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+
+[project.urls]
+Homepage = "https://github.com/sentaidigital/django-logingov/"

@@ -1,35 +1,37 @@
 {% load static %}
 {% load login_button %}
-<!-- Login.gov button template following USWDS design system -->
+
+<!-- Login.gov button template follows the USWDS design system. -->
 <link rel="stylesheet" href="{% static 'logingov/css/logingov-button.css' %}" >
 
 <div>
+<!-- Include tabindex="-1" on the wrapping <a> tags for a better a11y experience. -->
 <p><b>Default</b></p>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button %}
 </a>
 
 <div>
   <p><b>Normal size</b></p>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button button_style="primary" %}
 </a>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button button_style="primary-lighter" %}
 </a>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button button_style="primary-darker" %}
 </a>
 </div>
 <div>
   <p><b>Large size</b></p>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button button_style="primary" big=True %}
 </a>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button button_style="primary-lighter" big=True %}
 </a>
-<a href="{% url "logingov:login_gov_redirect" %}">
+<a href="{% url "logingov:login_gov_redirect" %}" tabindex="-1">
   {% logingov_button button_style="primary-darker" big=True %}
 </a>
 </div>

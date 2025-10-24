@@ -1,0 +1,35 @@
+{% load static %}
+{% load login_button %}
+<!-- Login.gov button template following USWDS design system -->
+<link rel="stylesheet" href="{% static 'logingov/css/logingov-button.css' %}" >
+
+<div>
+<p><b>Default</b></p>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button %}
+</a>
+
+<div>
+  <p><b>Normal size</b></p>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button button_style="primary" %}
+</a>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button button_style="primary-lighter" %}
+</a>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button button_style="primary-darker" %}
+</a>
+</div>
+<div>
+  <p><b>Large size</b></p>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button button_style="primary" big=True %}
+</a>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button button_style="primary-lighter" big=True %}
+</a>
+<a href="{% url "logingov:login_gov_redirect" %}">
+  {% logingov_button button_style="primary-darker" big=True %}
+</a>
+</div>

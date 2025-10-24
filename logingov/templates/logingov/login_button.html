@@ -1,0 +1,14 @@
+{# templates/logingov/login_button.html #}
+{% load i18n %}
+{% load static %}
+{% load svg_inject %}
+
+<button class="{{ button_classes }}">
+    {% if logo_first %}
+        {% svg_inject logo_file "login-button__logo" logo_size %}<title>Login.gov</title>
+        {% trans "Sign in with&nbsp;" %}
+    {% else %}
+        {% trans "Sign in with&nbsp;" %}
+        {% svg_inject logo_file "login-button__logo" logo_size %}<title>Login.gov</title>
+    {% endif %}
+</button>

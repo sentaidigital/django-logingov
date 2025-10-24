@@ -1,0 +1,28 @@
+# Login.gov Django App Spanish Translations.
+# Copyright (C) 2025
+# This file is distributed under the same license as the logingov Djagon app.
+# John Franklin <franklin@sentaidigital.com>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: logingov VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-20 20:26+0000\n"
+"PO-Revision-Date: 2025-10-20 20:26+0000\n"
+"Last-Translator: John Franklin <franklin@sentaidigital.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: logingov/templates/logingov/login_button-darker.html:3
+#: logingov/templates/logingov/login_button-large-darker.html:3
+#: logingov/templates/logingov/login_button-large-lighter.html:3
+#: logingov/templates/logingov/login_button-large-primary.html:3
+#: logingov/templates/logingov/login_button-lighter.html:3
+#: logingov/templates/logingov/login_button-primary.html:3
+msgid "Sign in with&nbsp;"
+msgstr "Iniciar sesión con&nbsp;"

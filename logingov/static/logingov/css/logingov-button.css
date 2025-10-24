@@ -1,0 +1,38 @@
+.login-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button__logo {
+  margin-left: 3px;
+}
+
+.login-button.login-button--primary-lighter {
+  color: #112e51;
+  background-color: #ebf3fa;
+}
+
+.login-button.login-button--primary-lighter:hover {
+  background-color: #cedced;
+}
+
+.login-button.login-button--primary {
+  color: #112e51;
+  background-color: #fff;
+  border: 1px solid #767676;
+}
+
+.login-button.login-button--primary:hover {
+  background-color: #ebf3fa;
+  border: 1px solid #767676;
+}
+
+.login-button.login-button--primary-darker {
+  color: #fff;
+  background-color: #112e51;
+}
+
+.login-button.login-button--primary-darker:hover {
+  background-color: #0c213a;
+}

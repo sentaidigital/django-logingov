@@ -1,6 +1,8 @@
-from django.db import models
+"""
+Model definitions for Login.gov integration.
+"""
 
-# Model definitions for Login.gov integration.
+from django.db import models
 
 class LoginGovSPSettings(models.Model):
     """
@@ -25,8 +27,11 @@ class LoginGovSPSettings(models.Model):
     """
 
     class Meta:
-        verbose_name = "Login.gov SP Client"
-        verbose_name_plural = "Login.gov SP Settings"
+        """
+        Metadata for LoginGovSPSettings
+        """
+        verbose_name = "Login.gov SP"
+        verbose_name_plural = "Login.gov SP Configurations"
 
     # Default to sandbox mode
     sandbox_mode = models.BooleanField(

@@ -10,8 +10,8 @@ dependencies = [
     "pyjwt",
     "requests"
 ]
-description = "A Django app to conduct web-based polls."
-readme = "README.rst"
+description = "A Django app to provide an SP client for Login.gov."
+readme = "README.md"
 license = "BSD-3-Clause"
 requires-python = ">= 3.10"
 authors = [
@@ -31,3 +31,4 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/sentaidigital/django-logingov/"
+Issues = "https://github.com/sentaidigital/django-logingov/issues"

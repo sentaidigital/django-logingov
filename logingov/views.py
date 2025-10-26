@@ -135,7 +135,7 @@ class AuthCloudView(RedirectView):
         user = lgc.find_user_by_uuid(claims.get('sub'))
 
         if user is None:
-            user = lgc.find_user_by_email(user_email)
+            user = lgc.find_or_create_user_by_email(user_email)
 
         # If user was not found (or not created), redirect to home page with an error.
         if user is None:

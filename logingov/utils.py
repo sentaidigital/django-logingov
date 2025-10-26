@@ -25,7 +25,7 @@ from django.utils.crypto import get_random_string
 
 # Local module imports.
 from logingov.exceptions import InvalidTokenError, InvalidEndpointError
-from logingov.models import LoginGovSPSettings
+from logingov.models import LoginGovSPSettings, UserUUID
 
 logger = logging.getLogger(__name__)
 _UNSET = object()
@@ -652,6 +652,22 @@ class LoginGovSP:
         except UserUUID.DoesNotExist:
             return None
 
+    def associate_user_with_sub(self, claims: dict, existing_user):
+        """
+        Associate a user with their Login.gov sub claim by creating a UserUUID record.
+
+        Args:
+            claims: The JWT claims dictionary from Login.gov
+            existing_user: The Django User object to associate with the sub claim
+
+        Returns:
+            UserUUID: The created UserUUID record
+        """
+        user_uuid_record = UserUUID.objects.create(
+            uuid=claims["sub"],
+            user=existing_user
+        )
+        return user_uuid_record
 
     def find_or_create_user_by_email(self, user_email):
         """

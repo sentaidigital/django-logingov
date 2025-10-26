@@ -26,8 +26,8 @@ class UserLoginTestCase(TestCase):
             password=get_random_string(12)
         )
 
-    def test_login_user_by_email_with_existing_user(self):
-        """Test login_user_by_email method with existing user."""
+    def test_find_or_create_user_by_email_with_existing_user(self):
+        """Test find_or_create_user_by_email method with existing user."""
         # Create a test user
         existing_user = get_user_model().objects.create_user(
             username='testuser',
@@ -41,11 +41,11 @@ class UserLoginTestCase(TestCase):
         # Mock the settings to enable auto_link_users
         with patch.object(sp, 'auto_link_users', return_value=True):
             # Test that existing user is returned when auto_link_users is True
-            result = sp.login_user_by_email('test@example.com')
+            result = sp.find_or_create_user_by_email('test@example.com')
             self.assertEqual(result, existing_user)
 
-    def test_login_user_by_email_with_new_user_creation(self):
-        """Test login_user_by_email method with new user creation."""
+    def test_find_or_create_user_by_email_with_new_user_creation(self):
+        """Test find_or_create_user_by_email method with new user creation."""
         # Create a LoginGovSP instance
         sp = LoginGovSP()
 
@@ -57,12 +57,12 @@ class UserLoginTestCase(TestCase):
                 mock_create.return_value = mock_user
 
                 # Test that new user is created when auto_create_users is True
-                result = sp.login_user_by_email('newuser@example.com')
+                result = sp.find_or_create_user_by_email('newuser@example.com')
                 self.assertEqual(result, mock_user)
                 mock_create.assert_called_once_with('newuser@example.com', None)
 
-    def test_login_user_by_email_auto_create_disabled(self):
-        """Test login_user_by_email method with auto-create disabled."""
+    def test_find_or_create_user_by_email_auto_create_disabled(self):
+        """Test find_or_create_user_by_email method with auto-create disabled."""
         # Create a LoginGovSP instance
         sp = LoginGovSP()
 
@@ -72,7 +72,7 @@ class UserLoginTestCase(TestCase):
             with patch.object(sp, 'auto_link_users', return_value=False):
                 # Test that None is returned when both auto_create_users and
                 # auto_link_users are False
-                result = sp.login_user_by_email('nonexistent@example.com')
+                result = sp.find_or_create_user_by_email('nonexistent@example.com')
                 self.assertIsNone(result)
 
 

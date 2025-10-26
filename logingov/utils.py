@@ -636,9 +636,26 @@ class LoginGovSP:
     # Managing Users
     #
 
-    def login_user_by_email(self, user_email):
+    def find_user_by_uuid(self, uuid:str):
         """
-        Login or create a user based on their email from Login.gov.
+        Find a user by their UUID from Login.gov.
+
+        Args:
+            uuid: The UUID provided by Login.gov
+
+        Returns:
+            User: The Django User object or None if not found
+        """
+        try:
+            user_uuid_record = UserUUID.objects.get(uuid__iexact=uuid)
+            return user_uuid_record.user
+        except UserUUID.DoesNotExist:
+            return None
+
+
+    def find_or_create_user_by_email(self, user_email):
+        """
+        Fetch or create a user based on their email from Login.gov.
 
         Args:
             user_email: The email address provided by Login.gov

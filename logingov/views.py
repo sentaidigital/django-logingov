@@ -130,8 +130,12 @@ class AuthCloudView(RedirectView):
 
         # TODO - Add a signal here to allow other apps to react to the claims.
 
+
         # PART 4: Create / Connect & Login User
-        user = lgc.login_user_by_email(user_email)
+        user = lgc.find_user_by_uuid(claims.get('sub'))
+
+        if user is None:
+            user = lgc.find_user_by_email(user_email)
 
         # If user was not found (or not created), redirect to home page with an error.
         if user is None:

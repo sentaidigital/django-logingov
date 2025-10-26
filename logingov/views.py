@@ -134,8 +134,13 @@ class AuthCloudView(RedirectView):
         # PART 4: Create / Connect & Login User
         user = lgc.find_user_by_uuid(claims.get('sub'))
 
-        if user is None:
+        if user is not None:
+            logger.info("Found user %s by their Login.gov UUID.", user.username)
+        else:
             user = lgc.find_or_create_user_by_email(user_email)
+
+        if user is not None and lgc.auto_link_users():
+            lgc.associate_user_with_uuid(claims.get("sub"), user)
 
         # If user was not found (or not created), redirect to home page with an error.
         if user is None:

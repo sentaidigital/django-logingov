@@ -355,8 +355,6 @@ class LoginGovSP:
             config_data = response.json()
 
             # Save it to self.sp_config['oidc_autoconfig']
-            # Based on the usage pattern, sp_config should be a model instance
-            # with an oidc_autoconfig field that we can update and save
             if hasattr(self.sp_config, "oidc_autoconfig"):
                 # Update the oidc_autoconfig field on the model instance
                 self.sp_config.oidc_autoconfig[mode] = config_data
@@ -652,19 +650,27 @@ class LoginGovSP:
         except UserUUID.DoesNotExist:
             return None
 
-    def associate_user_with_sub(self, claims: dict, existing_user):
+    def associate_user_with_uuid(self, sub: str, existing_user):
         """
         Associate a user with their Login.gov sub claim by creating a UserUUID record.
 
         Args:
-            claims: The JWT claims dictionary from Login.gov
+            sub: The `sub` field from the claims
             existing_user: The Django User object to associate with the sub claim
 
         Returns:
             UserUUID: The created UserUUID record
         """
+
+        try:
+            user_uuid_record = UserUUID.objects.get(uuid__iexact=sub)
+            return user_uuid_record
+        except UserUUID.DoesNotExist:
+            pass
+
+        logger.info("Linking %s to Login.gov UUID %s", existing_user.username, sub)
         user_uuid_record = UserUUID.objects.create(
-            uuid=claims["sub"],
+            uuid=sub,
             user=existing_user
         )
         return user_uuid_record

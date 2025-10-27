@@ -1,6 +1,9 @@
 ## Example Settings
 
-The configuration can be set up in the administration section of your project
+The configuration can be set up in the administration section of your project,
+with a couple key exceptions. The private key must be configured in the 
+environment as a PEM-formatted file (`LOGIN_GOV_PRIVATE_KEY_FILE`) or
+as the PEM-formatted key itself (`LOGIN_GOV_PRIVATE_KEY_PEM`)
 
 ```python
 # Boolean flag to enable sandbox mode (default: True)

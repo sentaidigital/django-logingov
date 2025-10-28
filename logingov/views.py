@@ -132,6 +132,11 @@ class AuthCloudView(RedirectView):
 
 
         # PART 4: Create / Connect & Login User
+
+        # Users can register with Login.gov with multiple email addresses. We
+        # search for them by UUID first and accept that even if the email in the
+        # Login.gov user claims is different. It just means they logged in with
+        # a different email than they used when first connecting to this site.
         user = lgc.find_user_by_uuid(claims.get('sub'))
 
         if user is not None:

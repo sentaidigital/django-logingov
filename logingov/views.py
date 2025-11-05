@@ -147,7 +147,7 @@ class AuthCloudView(RedirectView):
         if user is not None and lgc.auto_link_users():
             lgc.associate_user_with_uuid(claims.get("sub"), user)
 
-        # If user was not found (or not created), redirect to home page with an error.
+        # If user was not found and not created, redirect to home page with an error.
         if user is None:
             messages.error(self.request, "Cannot Login: No user exists with email {user_email}")
             return '/accounts/login?e=invalid-user'

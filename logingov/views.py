@@ -149,13 +149,13 @@ class AuthCloudView(RedirectView):
 
         # If user was not found and not created, redirect to home page with an error.
         if user is None:
-            messages.error(self.request, "Cannot Login: No user exists with email {user_email}")
+            messages.error(self.request, f"Cannot Login: No user exists with email {user_email}")
             return '/accounts/login?e=invalid-user'
 
         if not user.is_active:
             logger.warning("Login Denied: User %s authenticated by Login.gov, but is inactive.",
                 user.username)
-            messages.error(self.request, "Cannot Login: {user.username}'s account is disabled.")
+            messages.error(self.request, "Cannot Login: Your account is disabled.")
             return '/accounts/login?e=inactive-user'
 
         if user.is_active:

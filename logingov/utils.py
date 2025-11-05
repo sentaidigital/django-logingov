@@ -687,6 +687,7 @@ class LoginGovSP:
         """
 
         # Check if user with email provided by Login.gov auth already exists
+        user = None
         existing_user = get_user_model().objects.filter(email__iexact=user_email).first()
 
         # If user exists and automatic linking is enabled, use existing user
@@ -702,7 +703,6 @@ class LoginGovSP:
                 "Login.gov authentication failed for email %s: "
                 "User does not exist and auto-creation is disabled", user_email
             )
-            return None
         else:
             # Otherwise use the existing user
             user = existing_user

@@ -2,6 +2,7 @@
 Model definitions for Login.gov integration.
 """
 
+from django.contrib.auth import get_user_model
 from django.db import models
 
 class LoginGovSPSettings(models.Model):
@@ -154,3 +155,49 @@ class LoginGovSPSettings(models.Model):
             str: A human-readable string identifying the configuration
         """
         return "Login.gov Configuration"
+
+
+class UserUUID(models.Model):
+    """
+    Django model representing a mapping between a UUID and a User.
+
+    This model stores the relationship between a UUID (from Login.gov)
+    and a Django User object, enabling tracking of Login.gov authenticated users.
+
+    Attributes:
+        uuid: The UUID provided by Login.gov
+        user: The Django User object linked to this UUID
+        created_at: Timestamp of when the mapping was created
+    """
+
+    # The UUID provided by Login.gov
+    uuid = models.UUIDField(
+        unique=True,
+        help_text="The UUID provided by Login.gov for this user"
+    )
+
+    # The Django User object linked to this UUID
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        help_text="The Django User object linked to this UUID"
+    )
+
+    # Timestamp of when the mapping was created
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        """
+        Metadata for UserUUID model.
+        """
+        verbose_name = "User UUID"
+        verbose_name_plural = "User UUIDs"
+
+    def __str__(self):
+        """
+        Return a string representation of the model instance.
+
+        Returns:
+            str: A human-readable string identifying the user-uuid mapping
+        """
+        return f"UUID {self.uuid} -> User {self.user.id}"

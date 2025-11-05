@@ -130,18 +130,32 @@ class AuthCloudView(RedirectView):
 
         # TODO - Add a signal here to allow other apps to react to the claims.
 
-        # PART 4: Create / Connect & Login User
-        user = lgc.login_user_by_email(user_email)
 
-        # If user was not found (or not created), redirect to home page with an error.
+        # PART 4: Create / Connect & Login User
+
+        # Users can register with Login.gov with multiple email addresses. We
+        # search for them by UUID first and accept that even if the email in the
+        # Login.gov user claims is different. It just means they logged in with
+        # a different email than they used when first connecting to this site.
+        user = lgc.find_user_by_uuid(claims.get('sub'))
+
+        if user is not None:
+            logger.info("Found user %s by their Login.gov UUID.", user.username)
+        else:
+            user = lgc.find_or_create_user_by_email(user_email)
+
+        if user is not None and lgc.auto_link_users():
+            lgc.associate_user_with_uuid(claims.get("sub"), user)
+
+        # If user was not found and not created, redirect to home page with an error.
         if user is None:
-            messages.error(self.request, "Cannot Login: No user exists with email {user_email}")
+            messages.error(self.request, f"Cannot Login: No user exists with email {user_email}")
             return '/accounts/login?e=invalid-user'
 
         if not user.is_active:
             logger.warning("Login Denied: User %s authenticated by Login.gov, but is inactive.",
                 user.username)
-            messages.error(self.request, "Cannot Login: {user.username}'s account is disabled.")
+            messages.error(self.request, "Cannot Login: Your account is disabled.")
             return '/accounts/login?e=inactive-user'
 
         if user.is_active:

@@ -25,7 +25,7 @@ from django.utils.crypto import get_random_string
 
 # Local module imports.
 from logingov.exceptions import InvalidTokenError, InvalidEndpointError
-from logingov.models import LoginGovSPSettings
+from logingov.models import LoginGovSPSettings, UserUUID
 
 logger = logging.getLogger(__name__)
 _UNSET = object()
@@ -355,8 +355,6 @@ class LoginGovSP:
             config_data = response.json()
 
             # Save it to self.sp_config['oidc_autoconfig']
-            # Based on the usage pattern, sp_config should be a model instance
-            # with an oidc_autoconfig field that we can update and save
             if hasattr(self.sp_config, "oidc_autoconfig"):
                 # Update the oidc_autoconfig field on the model instance
                 self.sp_config.oidc_autoconfig[mode] = config_data
@@ -636,9 +634,50 @@ class LoginGovSP:
     # Managing Users
     #
 
-    def login_user_by_email(self, user_email):
+    def find_user_by_uuid(self, uuid:str):
         """
-        Login or create a user based on their email from Login.gov.
+        Find a user by their UUID from Login.gov.
+
+        Args:
+            uuid: The UUID provided by Login.gov
+
+        Returns:
+            User: The Django User object or None if not found
+        """
+        try:
+            user_uuid_record = UserUUID.objects.get(uuid__iexact=uuid)
+            return user_uuid_record.user
+        except UserUUID.DoesNotExist:
+            return None
+
+    def associate_user_with_uuid(self, sub: str, existing_user):
+        """
+        Associate a user with their Login.gov sub claim by creating a UserUUID record.
+
+        Args:
+            sub: The `sub` field from the claims
+            existing_user: The Django User object to associate with the sub claim
+
+        Returns:
+            UserUUID: The created UserUUID record
+        """
+
+        try:
+            user_uuid_record = UserUUID.objects.get(uuid__iexact=sub)
+            return user_uuid_record
+        except UserUUID.DoesNotExist:
+            pass
+
+        logger.info("Linking %s to Login.gov UUID %s", existing_user.username, sub)
+        user_uuid_record = UserUUID.objects.create(
+            uuid=sub,
+            user=existing_user
+        )
+        return user_uuid_record
+
+    def find_or_create_user_by_email(self, user_email):
+        """
+        Fetch or create a user based on their email from Login.gov.
 
         Args:
             user_email: The email address provided by Login.gov
@@ -648,6 +687,7 @@ class LoginGovSP:
         """
 
         # Check if user with email provided by Login.gov auth already exists
+        user = None
         existing_user = get_user_model().objects.filter(email__iexact=user_email).first()
 
         # If user exists and automatic linking is enabled, use existing user
@@ -663,7 +703,6 @@ class LoginGovSP:
                 "Login.gov authentication failed for email %s: "
                 "User does not exist and auto-creation is disabled", user_email
             )
-            return None
         else:
             # Otherwise use the existing user
             user = existing_user
